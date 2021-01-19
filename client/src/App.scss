@@ -1,10 +1,12 @@
 @import "~bootstrap/scss/bootstrap";
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 
+//vars
 $dark-bg-theme: #101522;
 $light-text: #f7f8fa;
 $default-fonts: "Roboto", sans-serif, Arial;
 
+// Global styles
 * {
     box-sizing: border-box;
     margin: 0;
@@ -26,6 +28,7 @@ body {
     flex-direction: column;
 }
 
+//custom navbar
 $theme-colors: (
     "custom-dark": #1c253b,
 );

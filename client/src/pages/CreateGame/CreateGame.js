@@ -1,7 +1,12 @@
 import React from 'react';
+import CreateMenu from '../../components/CreateMenu/CreateMenu';
 
 const CreateGame = () => {
-    return <div className="mt-5 p-5">Creategame</div>;
+    return (
+        <section className="mt-5 p-5">
+            <CreateMenu />
+        </section>
+    );
 };
 
 export default CreateGame;

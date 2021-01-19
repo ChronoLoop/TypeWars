@@ -8,15 +8,15 @@ import { useHistory } from 'react-router-dom';
 const GameMenu = () => {
     const history = useHistory();
 
-    const handleCreateGame = () => {
+    const onClickCreateGame = () => {
         history.push('/game/create');
     };
-    const handleJoinGame = () => {
+    const onClickJoinGame = () => {
         history.push('/game/join');
     };
 
     return (
-        <section className="game-menu text-center">
+        <div className="game-menu text-center mt-5">
             <h1>Welcome to {'<TypeWars/>'}</h1>
             <img src={LogoImage} alt={'Keyboard logo'} />
             <p>An online multiplayer typing game</p>
@@ -24,17 +24,17 @@ const GameMenu = () => {
                 <Button
                     size="lg"
                     variant="primary"
-                    onClick={handleCreateGame}
+                    onClick={onClickCreateGame}
                     className="mb-2"
                     block
                 >
                     Create Game
                 </Button>
-                <Button size="lg" variant="secondary" onClick={handleJoinGame} block>
+                <Button size="lg" variant="secondary" onClick={onClickJoinGame} block>
                     Join Game
                 </Button>
             </div>
-        </section>
+        </div>
     );
 };
 

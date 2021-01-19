@@ -1,31 +1,31 @@
-section.game-menu {
+.game-menu {
     display: flex;
     align-items: center;
     justify-items: center;
     flex-direction: column;
 
-    & > h1 {
+    & h1 {
         text-align: center;
         margin-bottom: 10px;
         font-size: 48px;
         line-height: 1.1;
         font-weight: 600;
     }
-    & > img {
+    & img {
         max-width: 250px;
         width: 100%;
         height: auto;
         margin-bottom: 10px;
     }
-    & > p {
+    & p {
         max-width: 600px;
         text-align: center;
         font-size: 28px;
         line-height: 1.2;
         margin-bottom: 20px;
     }
-    & > .buttons-container {
-        max-width: 250px;
+    & .buttons-container {
+        max-width: 350px;
         width: 100%;
     }
 }
