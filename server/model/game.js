@@ -16,7 +16,9 @@ const GameSchema = new mongoose.Schema({
     isOpen: { type: Boolean, default: true },
     isOver: { type: Boolean, default: false },
     players: [PlayerSchema],
-    startTime: { type: Number }
+    startTime: { type: Number },
+    // expire after 1 hr
+    createdAt: { type: Date, expires: 60 * 60, default: Date.now }
 });
 
 module.exports = mongoose.model('Game', GameSchema);
