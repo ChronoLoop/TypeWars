@@ -1,9 +1,8 @@
+@use "./variables" as var;
 @import "~bootstrap/scss/bootstrap";
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 
 //vars
-$dark-bg-theme: #101522;
-$light-text: #f7f8fa;
 $default-fonts: "Roboto", sans-serif, Arial;
 
 // Global styles
@@ -19,10 +18,10 @@ body {
 }
 
 .background-container {
-    background: $dark-bg-theme;
+    background: var.$dark-bg-theme;
     scroll-behavior: smooth;
     min-height: 100vh;
-    color: $light-text;
+    color: var.$light-text;
     height: fit-content;
     display: flex;
     flex-direction: column;

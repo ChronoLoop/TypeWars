@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import './App.scss';
+import './styles/styles.scss';
 
 //components
 import ScrollTop from './components/ScrollTop/ScrollTop';
