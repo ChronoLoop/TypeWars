@@ -14,10 +14,13 @@
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "concurrently": "^5.3.0",
+        "cors": "^2.8.5",
         "express": "^4.17.1",
         "mongoose": "^5.11.12",
         "react-icons": "^4.1.0",
+        "sass": "^1.32.5",
         "socket.io": "^3.1.0"
     },
     "author": "Kevin Wang",
