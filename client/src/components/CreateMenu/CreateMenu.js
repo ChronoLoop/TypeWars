@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { GiKeyboard } from 'react-icons/gi';
+import socket from '../../config/socket';
 import './CreateMenu.scss';
 
 const CreateMenu = () => {
-    const [nickname, setNickName] = useState('');
+    const [nickName, setNickName] = useState('');
 
     const onChange = (e) => {
         const { value } = e.target;
@@ -12,6 +13,7 @@ const CreateMenu = () => {
     };
     const onSubmit = (e) => {
         e.preventDefault();
+        socket.emit('create-game', nickName);
     };
 
     return (
@@ -21,7 +23,12 @@ const CreateMenu = () => {
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId="nickName">
                     <Form.Label>Nickname</Form.Label>
-                    <Form.Control type="text" placeholder="Enter nickname" onChange={onChange} />
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter nickname"
+                        onChange={onChange}
+                        value={nickName}
+                    />
                 </Form.Group>
                 <Button block size="lg" type="submit">
                     Create
