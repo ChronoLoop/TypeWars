@@ -23,6 +23,13 @@ const socketConfig = (socketIo, server, corsOptions) => {
         const handleJoinError = () => {
             socket.emit('error', JOIN_ERROR);
         };
+        const getPlayerName = (name, game) => {
+            // if player didn't input a name
+            if (name.length <= 0) {
+                return `Guest ${game.players.length}`;
+            }
+            return name;
+        };
 
         socket.on('create-game', async (nickName) => {
             try {
@@ -36,7 +43,7 @@ const socketConfig = (socketIo, server, corsOptions) => {
                 const player = {
                     socketID: socket.id,
                     isPartyLeader: true,
-                    nickName
+                    nickName: getPlayerName(nickName, game)
                 };
                 // add player to game
                 game.players.push(player);
@@ -52,9 +59,29 @@ const socketConfig = (socketIo, server, corsOptions) => {
             }
         });
 
-        socket.on('join-game', async ({ nickName, gameId }) => {
+        socket.on('join-game', async ({ nickName, gameId: joinId }) => {
             try {
-                console.log({ nickName, gameId });
+                const game = await Game.findById(joinId);
+                if (game && game.isOpen) {
+                    const gameID = game._id.toString();
+                    socket.join(gameID);
+                    const player = {
+                        socketID: socket.id,
+                        nickName: getPlayerName(nickName, game)
+                    };
+                    // add new player to game if socket Id doesnt already exist in game
+                    if (
+                        game.players.length &&
+                        !game.players.some((p) => p.socketID === socket.id)
+                    ) {
+                        game.players.push(player);
+                    }
+                    const updatedGame = await game.save();
+                    // send updated game to all sockets within game
+                    io.to(gameID).emit('update-game', updatedGame);
+                } else {
+                    handleJoinError();
+                }
             } catch {
                 handleJoinError();
             }
