@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useGameContext } from '../../contexts/GameContext';
 
 const Game = () => {
-    const { gameState } = useGameContext();
+    const { gameState, resetGameState } = useGameContext();
+
+    //reset game state when player leaves the game
+    useEffect(() => {
+        return () => {
+            resetGameState();
+        };
+    }, [resetGameState]);
 
     //redirect if user didn't submit create or join form
     if (!gameState._id) {

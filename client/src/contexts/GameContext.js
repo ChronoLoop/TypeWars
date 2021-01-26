@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import socket from '../config/socket';
 
@@ -8,13 +8,12 @@ export const useGameContext = () => {
     return useContext(GameContext);
 };
 export const GameProvider = ({ children }) => {
-    const initialState = {
+    const [gameState, setGameState] = useState({
         _id: null,
         isOpen: false,
         players: [],
         words: []
-    };
-    const [gameState, setGameState] = useState(initialState);
+    });
     const history = useHistory();
 
     useEffect(() => {
@@ -32,9 +31,9 @@ export const GameProvider = ({ children }) => {
         if (gameState._id != null) history.push(`/game/${gameState._id}`);
     }, [gameState._id, history]);
 
-    const resetGameState = () => {
-        setGameState(initialState);
-    };
+    const resetGameState = useCallback(() => {
+        setGameState({ _id: null, isOpen: false, players: [], words: [] });
+    }, [setGameState]);
 
     return (
         <GameContext.Provider value={{ gameState, setGameState, resetGameState }}>
