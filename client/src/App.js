@@ -14,25 +14,28 @@ import JoinGame from './pages/JoinGame/JoinGame';
 import Game from './pages/Game/Game';
 //context
 import { GameProvider } from './contexts/GameContext';
+import { ErrorProvider } from './contexts/ErrorContext';
 
 const App = () => {
     return (
         <Router>
-            <GameProvider>
-                <div className="background-container">
-                    <ScrollTop />
-                    <Navbar />
-                    <ErrorModal />
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/game/create" component={CreateGame} />
-                        <Route exact path="/game/join" component={JoinGame} />
-                        <Route exact path="/game/:id" component={Game} />
-                        <Redirect to="/" />
-                    </Switch>
-                    <Footer />
-                </div>
-            </GameProvider>
+            <ErrorProvider>
+                <GameProvider>
+                    <div className="background-container">
+                        <ScrollTop />
+                        <Navbar />
+                        <ErrorModal />
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/game/create" component={CreateGame} />
+                            <Route exact path="/game/join" component={JoinGame} />
+                            <Route exact path="/game/:id" component={Game} />
+                            <Redirect to="/" />
+                        </Switch>
+                        <Footer />
+                    </div>
+                </GameProvider>
+            </ErrorProvider>
         </Router>
     );
 };

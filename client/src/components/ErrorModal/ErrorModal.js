@@ -1,29 +1,31 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import { useErrorContext } from '../../contexts/ErrorContext';
 import { useGameContext } from '../../contexts/GameContext';
 
 const ErrorModal = () => {
-    const { resetGameState, hasServerError } = useGameContext();
+    const { serverError, resetError } = useErrorContext();
+    const { resetGameState } = useGameContext();
     const history = useHistory();
 
     const onHideModal = () => {
-        resetGameState();
-        history.push('/');
+        //reset error state
+        resetError();
+        //reset game state and go to home
+        if (serverError.reset) {
+            resetGameState();
+            history.push('/');
+        }
     };
 
-    const error = {
-        title: 'Error',
-        msg:
-            'An error has occured on the server. You will be redirected to the home page after closing this modal.'
-    };
     return (
-        <Modal onHide={onHideModal} show={hasServerError} centered animation={false}>
+        <Modal onHide={onHideModal} show={serverError.hasError} centered animation={false}>
             <Modal.Header closeButton>
-                <Modal.Title>{error.title}</Modal.Title>
+                <Modal.Title>Error</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{error.msg}</p>
+                <p>{serverError.message}</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={onHideModal}>

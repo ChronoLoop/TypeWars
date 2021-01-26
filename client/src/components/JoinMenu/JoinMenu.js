@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RiTeamFill } from 'react-icons/ri';
 import { Button, Form } from 'react-bootstrap';
+import socket from '../../config/socket';
 import './JoinMenu.scss';
 
 const JoinMenu = () => {
@@ -15,6 +16,7 @@ const JoinMenu = () => {
     };
     const onSubmit = (e) => {
         e.preventDefault();
+        socket.emit('join-game', userInput);
     };
 
     return (
@@ -24,11 +26,23 @@ const JoinMenu = () => {
             <Form onSubmit={onSubmit}>
                 <Form.Group controlId="nickName">
                     <Form.Label>Nickname</Form.Label>
-                    <Form.Control type="text" placeholder="Enter nickname" onChange={onChange} />
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter nickname"
+                        onChange={onChange}
+                        value={userInput.nickName}
+                        name="nickName"
+                    />
                 </Form.Group>
                 <Form.Group controlId="gameId">
                     <Form.Label>Game ID</Form.Label>
-                    <Form.Control type="text" placeholder="Enter game ID" onChange={onChange} />
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter game ID"
+                        onChange={onChange}
+                        value={userInput.gameId}
+                        name="gameId"
+                    />
                 </Form.Group>
                 <Button block size="lg" type="submit">
                     Join

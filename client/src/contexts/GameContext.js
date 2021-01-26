@@ -15,7 +15,6 @@ export const GameProvider = ({ children }) => {
         words: []
     };
     const [gameState, setGameState] = useState(initialState);
-    const [hasServerError, setHasServerError] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
@@ -23,11 +22,8 @@ export const GameProvider = ({ children }) => {
         socket.on('update-game', (game) => {
             setGameState(game);
         });
-        socket.on('game-error', (res) => {
-            setHasServerError(res.hasError);
-        });
         return () => {
-            socket.removeAllListeners();
+            socket.removeListener('update-game');
         };
     }, []);
 
@@ -38,13 +34,10 @@ export const GameProvider = ({ children }) => {
 
     const resetGameState = () => {
         setGameState(initialState);
-        setHasServerError(false);
     };
 
     return (
-        <GameContext.Provider
-            value={{ gameState, setGameState, resetGameState, hasServerError, setHasServerError }}
-        >
+        <GameContext.Provider value={{ gameState, setGameState, resetGameState }}>
             {children}
         </GameContext.Provider>
     );

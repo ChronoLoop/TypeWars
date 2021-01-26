@@ -5,8 +5,23 @@ const socketConfig = (socketIo, server, corsOptions) => {
     const io = socketIo(server, { cors: corsOptions });
 
     io.on('connection', (socket) => {
+        const SERVER_ERROR = {
+            hasError: true,
+            reset: true,
+            message:
+                'An error has occured on the server. You will be redirected to the home page after closing this modal.'
+        };
+        const JOIN_ERROR = {
+            hasError: true,
+            reset: false,
+            message: 'The game could not be join. Please try a different game ID.'
+        };
+
         const handleSocketError = () => {
-            socket.emit('game-error', { hasError: true });
+            socket.emit('error', SERVER_ERROR);
+        };
+        const handleJoinError = () => {
+            socket.emit('error', JOIN_ERROR);
         };
 
         socket.on('create-game', async (nickName) => {
@@ -34,6 +49,14 @@ const socketConfig = (socketIo, server, corsOptions) => {
                 io.to(gameID).emit('update-game', game);
             } catch {
                 handleSocketError();
+            }
+        });
+
+        socket.on('join-game', async ({ nickName, gameId }) => {
+            try {
+                console.log({ nickName, gameId });
+            } catch {
+                handleJoinError();
             }
         });
     });
