@@ -20,6 +20,9 @@ const Game = () => {
     //reset game state when player leaves the game
     useEffect(() => {
         return () => {
+            if (gameID) {
+                socket.emit('player-left', { gameID });
+            }
             resetGameState();
         };
     }, [resetGameState, gameID]);

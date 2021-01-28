@@ -186,7 +186,25 @@ const socketConfig = (socketIo, server, corsOptions) => {
         // handle when players leave
         socket.on('player-left', async ({ gameID }) => {
             try {
-                console.log('player-left');
+                const game = await Game.findById(gameID);
+                const playerThatLeftParty = game.players.find(
+                    (player) => player.socketID === socket.id
+                );
+                // unsubscribe socket from channel
+                socket.leave(gameID);
+                // remove player
+                game.players = game.players.filter(
+                    (player) => player._id !== playerThatLeftParty._id
+                );
+                // check if party leader has left
+                if (playerThatLeftParty.isPartyLeader) {
+                    // set next party leader if there are more players
+                    if (game.players.length > 0) game.players[0].isPartyLeader = true;
+                }
+
+                const updatedGame = await game.save();
+                // send updated game to all sockets within game
+                io.to(gameID).emit('update-game', updatedGame);
             } catch {
                 handleSocketError();
             }
