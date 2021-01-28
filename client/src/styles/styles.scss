@@ -29,7 +29,7 @@ body {
 
 //custom navbar
 $theme-colors: (
-    "custom-dark": #1c253b,
+    "custom-dark": var.$light-bg-theme,
 );
 
 // Generate `.bg-*` color utilities
