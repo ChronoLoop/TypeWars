@@ -6,7 +6,7 @@ import './JoinMenu.scss';
 
 const JoinMenu = () => {
     const [userInput, setUserInput] = useState({
-        gameId: '',
+        gameID: '',
         nickName: ''
     });
 
@@ -34,14 +34,14 @@ const JoinMenu = () => {
                         name="nickName"
                     />
                 </Form.Group>
-                <Form.Group controlId="gameId">
+                <Form.Group controlId="gameID">
                     <Form.Label>Game ID</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter game ID"
                         onChange={onChange}
-                        value={userInput.gameId}
-                        name="gameId"
+                        value={userInput.gameID}
+                        name="gameID"
                     />
                 </Form.Group>
                 <Button block size="lg" type="submit">
