@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import socket from '../../config/socket';
 
 const CountDown = () => {
-    const [timer, setTimer] = useState({ countDown: '', message: '' });
+    const [timer, setTimer] = useState({ countDown: 'N/A', message: 'Countdown:' });
     useEffect(() => {
         socket.on('timer', (data) => {
             setTimer(data);

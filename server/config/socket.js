@@ -48,22 +48,6 @@ const socketConfig = (socketIo, server, corsOptions) => {
                         message: 'Time Remaining:'
                     });
                     time -= 1;
-
-                    (async () => {
-                        // get time stamp of when the game ended
-                        const endTime = new Date().getTime();
-                        // find the game
-                        game = await Game.findById(gameID);
-                        // get the game start time
-                        const { startTime } = game;
-                        // calculate all players WPM who haven't finished typing out sentence
-                        game.players.forEach((player, index) => {
-                            game.players[index].WPM = calculateWPM(endTime, startTime, player);
-                        });
-                        // save the game
-                        const updatedGame = await game.save();
-                        io.to(gameID).emit('update-game', updatedGame);
-                    })();
                 }
                 // game clock has run out, game is over
                 else {
@@ -76,9 +60,11 @@ const socketConfig = (socketIo, server, corsOptions) => {
                         const { startTime } = game;
                         // game is officially over
                         game.isOver = true;
-                        // calculate all players WPM who haven't finished typing out sentence
+                        // calculate wpm for players that didnt finish in time
                         game.players.forEach((player, index) => {
-                            game.players[index].WPM = calculateWPM(endTime, startTime, player);
+                            if (!player.finishedTyping) {
+                                game.players[index].WPM = calculateWPM(endTime, startTime, player);
+                            }
                         });
                         // save the game
                         const updatedGame = await game.save();
@@ -147,42 +133,6 @@ const socketConfig = (socketIo, server, corsOptions) => {
             }
         });
 
-        socket.on('timer', async ({ gameID, playerID }) => {
-            try {
-                // time in seconds
-                let countDown = 5;
-                const game = await Game.findById(gameID);
-                // find player who made request
-                const player = game.players.id(playerID);
-                // check if player has permission to start game
-                if (player.isPartyLeader) {
-                    // start time countdown
-                    const timerID = setInterval(async () => {
-                        // close game so no one else can join
-                        game.isOpen = false;
-                        // save the game
-                        const updatedGame = await game.save();
-                        // send updated game to all sockets within game
-                        io.to(gameID).emit('update-game', updatedGame);
-                        // keep counting down until we hit 0
-                        if (countDown >= 0) {
-                            // emit countDown to all players within game
-                            io.to(gameID).emit('timer', { countDown, message: 'Countdown:' });
-                            countDown -= 1;
-                        }
-                        // start game clock
-                        else {
-                            // start game clock
-                            startGameClock(gameID);
-                            clearInterval(timerID);
-                        }
-                    }, 1000);
-                }
-            } catch {
-                handleSocketError();
-            }
-        });
-
         // handle when players leave
         socket.on('player-left', async ({ gameID }) => {
             try {
@@ -205,6 +155,82 @@ const socketConfig = (socketIo, server, corsOptions) => {
                 const updatedGame = await game.save();
                 // send updated game to all sockets within game
                 io.to(gameID).emit('update-game', updatedGame);
+            } catch {
+                handleSocketError();
+            }
+        });
+
+        socket.on('timer', async ({ gameID, playerID }) => {
+            try {
+                // time in seconds
+                let countDown = 5;
+                const game = await Game.findById(gameID);
+                // find player who made request
+                const player = game.players.id(playerID);
+                // check if player has permission to start game
+                if (player.isPartyLeader) {
+                    // start time countdown
+                    const timerID = setInterval(async () => {
+                        // keep counting down until we hit 0
+                        if (countDown >= 0) {
+                            // emit countDown to all players within game
+                            io.to(gameID).emit('timer', { countDown, message: 'Countdown:' });
+                            countDown -= 1;
+                        }
+                        // start game clock
+                        else {
+                            // close game so no one else can join
+                            game.isOpen = false;
+                            // save the game
+                            const updatedGame = await game.save();
+                            // send updated game to all sockets within game
+                            io.to(gameID).emit('update-game', updatedGame);
+                            // start game clock
+                            startGameClock(gameID);
+                            clearInterval(timerID);
+                        }
+                    }, 1000);
+                }
+            } catch {
+                handleSocketError();
+            }
+        });
+
+        socket.on('player-input', async ({ gameID, playerInput }) => {
+            try {
+                // find the game
+                const game = await Game.findById(gameID);
+                // if game has started and game isn't over
+                if (!game.isOpen && !game.isOver) {
+                    // get player making the request
+                    const player = game.players.find((p) => p.socketID === socket.id);
+                    // check if player is done typing
+                    if (!player.finishedTyping) {
+                        // get current word the user has to type
+                        const word = game.words[player.currentWordIndex];
+                        // if player typed word correctly
+                        if (word === playerInput) {
+                            // advance player to next word
+                            player.currentWordIndex += 1;
+                            // get timestamp of when the user finished
+                            const endTime = new Date().getTime();
+                            // get timestamp of when the game started
+                            const { startTime } = game;
+                            // calculate Words Per Minute
+                            player.WPM = calculateWPM(endTime, startTime, player);
+                            // if player has finished typing words
+                            if (player.currentWordIndex === game.words.length) {
+                                player.finishedTyping = true;
+                                // stops timer for that player
+                                socket.emit('done');
+                            }
+                            // save game
+                            const updatedGame = await game.save();
+                            // send updated game to all sockets within game
+                            io.to(gameID).emit('update-game', updatedGame);
+                        }
+                    }
+                }
             } catch {
                 handleSocketError();
             }

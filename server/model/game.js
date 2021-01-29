@@ -8,6 +8,7 @@ const PlayerSchema = new mongoose.Schema({
     socketID: { type: String },
     isPartyLeader: { type: Boolean, default: false },
     WPM: { type: Number, default: -1 },
+    finishedTyping: { type: Boolean, default: false },
     nickName: { type: String }
 });
 
