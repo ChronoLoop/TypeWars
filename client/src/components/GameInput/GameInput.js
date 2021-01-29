@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { FormControl } from 'react-bootstrap';
 import socket from '../../config/socket';
-
 const GameInput = ({ isGameOver, isGameOpen, gameID, finishedTyping }) => {
     const [playerInput, setPlayerInput] = useState('');
     const inputRef = useRef(null);
@@ -28,7 +28,7 @@ const GameInput = ({ isGameOver, isGameOpen, gameID, finishedTyping }) => {
 
     return (
         <>
-            <input
+            <FormControl
                 type="text"
                 readOnly={isGameOpen || isGameOver || finishedTyping}
                 ref={inputRef}

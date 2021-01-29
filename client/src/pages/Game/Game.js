@@ -8,6 +8,7 @@ import { useGameContext } from '../../contexts/GameContext';
 import CountDown from '../../components/CountDown/CountDown';
 import StartButton from '../../components/StartButton/StartButton';
 import GameInput from '../../components/GameInput/GameInput';
+import GameCode from '../../components/GameCode/GameCode';
 //helper
 const findPlayer = (players) => {
     return players.find((player) => player.socketID === socket.id);
@@ -47,6 +48,7 @@ const Game = () => {
                 />
                 <StartButton player={player} gameID={gameID} isGameOver={isOver} />
             </div>
+            {isOpen ? <GameCode gameID={gameID} /> : null}
         </section>
     );
 };
