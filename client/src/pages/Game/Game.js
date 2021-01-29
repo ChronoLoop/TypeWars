@@ -9,6 +9,7 @@ import CountDown from '../../components/CountDown/CountDown';
 import StartButton from '../../components/StartButton/StartButton';
 import GameInput from '../../components/GameInput/GameInput';
 import GameCode from '../../components/GameCode/GameCode';
+import GameWords from '../../components/GameWords/GameWords';
 //helper
 const findPlayer = (players) => {
     return players.find((player) => player.socketID === socket.id);
@@ -16,7 +17,7 @@ const findPlayer = (players) => {
 
 const Game = () => {
     const { resetGameState, gameState } = useGameContext();
-    const { players, _id: gameID, isOver, isOpen } = gameState;
+    const { players, _id: gameID, isOver, isOpen, words } = gameState;
     const player = findPlayer(players);
     //reset game state when player leaves the game
     useEffect(() => {
@@ -39,7 +40,7 @@ const Game = () => {
                     <CountDown />
                     {player && player.WPM >= 0 ? <h3>{player.WPM} WPM</h3> : <h3>0 WPM</h3>}
                 </div>
-                <span className="my-2">{gameState.words.join(' ')}</span>
+                <GameWords words={words} player={player} />
                 <GameInput
                     isGameOver={isOver}
                     isGameOpen={isOpen}
