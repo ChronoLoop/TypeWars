@@ -10,6 +10,7 @@ import StartButton from '../../components/StartButton/StartButton';
 import GameInput from '../../components/GameInput/GameInput';
 import GameCode from '../../components/GameCode/GameCode';
 import GameWords from '../../components/GameWords/GameWords';
+import PlayersProgress from '../../components/PlayersProgress/PlayersProgress';
 //helper
 const findPlayer = (players) => {
     return players.find((player) => player.socketID === socket.id);
@@ -35,6 +36,7 @@ const Game = () => {
     }
     return (
         <section className="mt-5 p-5">
+            <PlayersProgress players={players} player={player} wordsLength={words.length} />
             <div className="player-area">
                 <div className="stats">
                     <CountDown />
