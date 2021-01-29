@@ -11,6 +11,7 @@ import GameInput from '../../components/GameInput/GameInput';
 import GameCode from '../../components/GameCode/GameCode';
 import GameWords from '../../components/GameWords/GameWords';
 import PlayersProgress from '../../components/PlayersProgress/PlayersProgress';
+import ScoreBoard from '../../components/ScoreBoard/ScoreBoard';
 //helper
 const findPlayer = (players) => {
     return players.find((player) => player.socketID === socket.id);
@@ -52,6 +53,7 @@ const Game = () => {
                 <StartButton player={player} gameID={gameID} isGameOver={isOver} />
             </div>
             {isOpen ? <GameCode gameID={gameID} /> : null}
+            <ScoreBoard players={players} />
         </section>
     );
 };

@@ -64,6 +64,7 @@ const socketConfig = (socketIo, server, corsOptions) => {
                         game.players.forEach((player, index) => {
                             if (!player.finishedTyping) {
                                 game.players[index].WPM = calculateWPM(endTime, startTime, player);
+                                game.players[index].finishedTyping = true;
                             }
                         });
                         // save the game

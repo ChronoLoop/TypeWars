@@ -1,0 +1,29 @@
+@use '../../styles/variables' as var;
+
+.player-table {
+    width: 100%;
+    th {
+        padding: 0.75rem;
+    }
+    thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #c8cccf;
+    }
+    tbody th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+    tbody tr:last-child th {
+        vertical-align: bottom;
+        border-bottom: none;
+    }
+}
+
+.table-row-dark {
+    background-color: var.$light-bg-theme;
+    color: var.$light-text;
+}
+.table-row-light {
+    background-color: var.$light-text;
+    color: black;
+}
