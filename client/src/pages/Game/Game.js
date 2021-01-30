@@ -36,24 +36,26 @@ const Game = () => {
         return <Redirect to="/" />;
     }
     return (
-        <section className="mt-5 p-5">
-            <PlayersProgress players={players} player={player} wordsLength={words.length} />
-            <div className="player-area">
-                <div className="stats">
-                    <CountDown />
-                    {player && player.WPM >= 0 ? <h3>{player.WPM} WPM</h3> : <h3>0 WPM</h3>}
+        <section className="game-page">
+            <div className="game">
+                <PlayersProgress players={players} player={player} wordsLength={words.length} />
+                <div className="player-area">
+                    <div className="stats">
+                        <CountDown />
+                        {player && player.WPM >= 0 ? <h3>{player.WPM} WPM</h3> : <h3>0 WPM</h3>}
+                    </div>
+                    <GameWords words={words} player={player} />
+                    <GameInput
+                        isGameOver={isOver}
+                        isGameOpen={isOpen}
+                        gameID={gameID}
+                        finishedTyping={player.finishedTyping}
+                    />
+                    <StartButton player={player} gameID={gameID} isGameOver={isOver} />
                 </div>
-                <GameWords words={words} player={player} />
-                <GameInput
-                    isGameOver={isOver}
-                    isGameOpen={isOpen}
-                    gameID={gameID}
-                    finishedTyping={player.finishedTyping}
-                />
-                <StartButton player={player} gameID={gameID} isGameOver={isOver} />
+                {isOpen ? <GameCode gameID={gameID} /> : null}
+                <ScoreBoard players={players} />
             </div>
-            {isOpen ? <GameCode gameID={gameID} /> : null}
-            <ScoreBoard players={players} />
         </section>
     );
 };

@@ -1,5 +1,14 @@
 @use '../../styles/variables' as var;
 
+.game-page {
+    margin: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
 .player-area {
     width: 100%;
     display: flex;
@@ -7,6 +16,7 @@
     background-color: var.$light-bg-theme;
     padding: 30px 40px;
     border-radius: 10px;
+    margin-top: 40px;
 
     input {
         width: 100%;
@@ -15,5 +25,18 @@
     .stats {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        @media screen and (max-width: 900px) {
+            h3:first-child {
+                flex: 0 0 100%;
+            }
+        }
+    }
+}
+
+.game {
+    width: 55%;
+    @media screen and (min-width: 1000px) {
+        width: 50%;
     }
 }
