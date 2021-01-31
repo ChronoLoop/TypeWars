@@ -35,7 +35,8 @@ const GameInput = ({ isGameOver, isGameOpen, gameID, finishedTyping }) => {
                 value={playerInput}
                 placeholder={
                     (isGameOpen && 'Type the above text here when the game begins') ||
-                    (finishedTyping && 'Finished')
+                    (finishedTyping && 'Finished') ||
+                    ''
                 }
                 onChange={onChangeInput}
             />
