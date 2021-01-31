@@ -12,6 +12,7 @@ import GameCode from '../../components/GameCode/GameCode';
 import GameWords from '../../components/GameWords/GameWords';
 import PlayersProgress from '../../components/PlayersProgress/PlayersProgress';
 import ScoreBoard from '../../components/ScoreBoard/ScoreBoard';
+import RestartButton from '../../components/RestartButton/RestartButton';
 //helper
 const findPlayer = (players) => {
     return players.find((player) => player.socketID === socket.id);
@@ -41,7 +42,7 @@ const Game = () => {
                 <PlayersProgress players={players} player={player} wordsLength={words.length} />
                 <div className="player-area">
                     <div className="stats">
-                        <CountDown />
+                        <CountDown isGameOver={isOver} />
                         {player && player.WPM >= 0 ? <h3>{player.WPM} WPM</h3> : <h3>0 WPM</h3>}
                     </div>
                     <GameWords words={words} player={player} />
@@ -51,7 +52,15 @@ const Game = () => {
                         gameID={gameID}
                         finishedTyping={player.finishedTyping}
                     />
-                    <StartButton player={player} gameID={gameID} isGameOver={isOver} />
+                    <div className="d-flex justify-content-center flex-wrap mt-4">
+                        <StartButton
+                            player={player}
+                            gameID={gameID}
+                            isGameOver={isOver}
+                            className="mr-2"
+                        />
+                        <RestartButton player={player} gameID={gameID} isGameOver={isOver} />
+                    </div>
                 </div>
                 {isOpen ? <GameCode gameID={gameID} /> : null}
                 <ScoreBoard players={players} />

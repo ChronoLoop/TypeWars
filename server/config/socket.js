@@ -48,6 +48,23 @@ const socketConfig = (socketIo, server, corsOptions) => {
                         message: 'Time Remaining:'
                     });
                     time -= 1;
+
+                    // clear interval if players are done
+                    (async () => {
+                        const tempGame = await Game.findById(gameID);
+                        // check if every player is finished typing
+                        const playersFinishedTyping = tempGame.players.every(
+                            (player) => player.finishedTyping
+                        );
+                        if (playersFinishedTyping) {
+                            tempGame.isOver = true;
+                            // save the game
+                            const updatedGame = await tempGame.save();
+                            // send updated game to all sockets within game
+                            io.to(gameID).emit('update-game', updatedGame);
+                            clearInterval(timerID);
+                        }
+                    })();
                 }
                 // game clock has run out, game is over
                 else {
@@ -131,6 +148,36 @@ const socketConfig = (socketIo, server, corsOptions) => {
                 }
             } catch {
                 handleJoinError();
+            }
+        });
+
+        socket.on('restart-game', async ({ gameID }) => {
+            try {
+                // find game
+                const game = await Game.findById(gameID);
+                // get new words for game
+                const gameWords = await getRandomQuote();
+                game.words = gameWords;
+
+                // reset game
+                game.isOpen = true;
+                game.isOver = false;
+                // reset expiration date
+                game.createdAt = Date.now();
+
+                for (let i = 0; i < game.players.length; i++) {
+                    const player = game.players[i];
+                    player.currentWordIndex = 0;
+                    player.WPM = -1;
+                    player.finishedTyping = false;
+                }
+
+                // save the game
+                const updatedGame = await game.save();
+                // send updated game to all sockets within game
+                io.to(gameID).emit('update-game', updatedGame);
+            } catch {
+                handleSocketError();
             }
         });
 

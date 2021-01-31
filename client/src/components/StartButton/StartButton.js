@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import socket from '../../config/socket';
 
-const StartButton = ({ player, gameID, isGameOver }) => {
+const StartButton = ({ player, gameID, isGameOver, ...props }) => {
     const [showBtn, setShowBtn] = useState(true);
     const { isPartyLeader } = player;
     const onClickStart = () => {
@@ -10,12 +10,17 @@ const StartButton = ({ player, gameID, isGameOver }) => {
         setShowBtn(false);
     };
 
+    //show start button after game is reset
+    useEffect(() => {
+        if (!isGameOver) {
+            setShowBtn(true);
+        }
+    }, [isGameOver]);
+
     return showBtn && isPartyLeader && !isGameOver ? (
-        <div className="d-flex justify-content-center mt-4">
-            <Button size="lg" variant="primary" onClick={onClickStart}>
-                Start Game
-            </Button>
-        </div>
+        <Button size="lg" variant="primary" onClick={onClickStart} {...props}>
+            Start Game
+        </Button>
     ) : null;
 };
 
