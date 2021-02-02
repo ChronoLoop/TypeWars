@@ -1,5 +1,5 @@
 <h1>Typewars</h1>
-<p>Typewars is an online competitive typing game where players can race against each other in real time.</p>
+<p>Typewars is an online competitive typing game where players can race against each other in real-time.</p>
 
 
 <b>Website: </b> <a href="https://typewars-kevin.herokuapp.com">https://typewars-kevin.herokuapp.com</a>
