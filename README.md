@@ -10,6 +10,17 @@
 <b>Finished race</b>
 <img width="1438" alt="screenshot" src="images/game2.png">
 
+<h2>Installation</h2>
+
+ Setup the project and install the packages by running:
+```bash
+npm run setup
+```
+ Run project with command:
+```bash
+npm run dev
+```
+
 <h2>Built with</h2>
 <ul>
     <li><b>FrontEnd:</b> React.JS, Bootstrap, HTML/CSS, Socket.IO </li>
