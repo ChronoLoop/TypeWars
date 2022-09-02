@@ -4,39 +4,39 @@
     "description": "TypeWars is an online multiplayer typing game.",
     "main": "server.js",
     "scripts": {
-        "setup": "npm install && npm run setup-client",
+        "setup": "npm ci && npm ci --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "install-all": "concurrently \"npm install\" \"npm install --prefix client\"",
         "client": "npm run start --prefix client",
         "server": "nodemon --watch server ./server/server.js",
         "build": "npm run build --prefix client",
         "start": "node server/server.js",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+        "start:prod": "NODE_ENV=production node server/server.js"
     },
     "dependencies": {
-        "axios": "^0.21.1",
-        "concurrently": "^5.3.0",
+        "axios": "^0.27.2",
+        "concurrently": "^7.3.0",
         "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "mongoose": "^5.11.14",
-        "socket.io": "^3.1.0"
+        "express": "^4.18.1",
+        "mongoose": "^6.5.4",
+        "socket.io": "^4.5.1"
     },
     "author": "Kevin Wang",
     "license": "ISC",
     "devDependencies": {
-        "dotenv": "^8.2.0",
-        "eslint": "^7.19.0",
-        "eslint-config-airbnb": "^18.2.0",
+        "dotenv": "^16.0.2",
+        "eslint": "^8.23.0",
+        "eslint-config-airbnb": "^19.0.4",
         "eslint-config-node": "^4.1.0",
-        "eslint-config-prettier": "^6.12.0",
-        "eslint-plugin-flowtype": "^4.7.0",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-jsx-a11y": "^6.3.1",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-flowtype": "^8.0.3",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-jsx-a11y": "^6.6.1",
         "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-prettier": "^3.3.1",
-        "eslint-plugin-react": "^7.22.0",
-        "eslint-plugin-react-hooks": "^4.1.2",
-        "nodemon": "^2.0.7",
-        "prettier": "^2.1.2"
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react": "^7.31.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "nodemon": "^2.0.19",
+        "prettier": "^2.7.1"
     }
 }
