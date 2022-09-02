@@ -19,7 +19,7 @@ const socketConfig = require('./config/socket');
 
 // only permit local (during dev) or website to resources
 const corsOptions = {
-    origin: IN_PROD ? 'https://typewars.up.railway.app/' : 'http://localhost:3000'
+    origin: IN_PROD ? 'https://typewars.up.railway.app' : 'http://localhost:3000'
 };
 const app = express();
 app.use(cors(corsOptions));
