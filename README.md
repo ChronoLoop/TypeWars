@@ -1,7 +1,7 @@
 <h1>Typewars</h1>
 <p>Typewars is an online competitive typing game where players can race against each other in real-time.</p>
 
-<b>Website: </b> <a href="https://typewars.up.railway.app">https://typewars.up.railway.app/</a>
+<b>Website: </b> <a href="https://typewars.up.railway.app" target="_blank">https://typewars.up.railway.app/</a>
 
 <b>Game page</b>
 <img width="1438" alt="screenshot" src="images/game1.png">
