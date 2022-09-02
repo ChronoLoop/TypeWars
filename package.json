@@ -6,7 +6,7 @@
     "scripts": {
         "setup": "npm ci && npm ci --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "install-all": "concurrently \"npm install\" \"npm install --prefix client\"",
+        "install-all": "concurrently \"npm ci\" \"npm ci --prefix client\"",
         "client": "npm run start --prefix client",
         "server": "nodemon --watch server ./server/server.js",
         "build": "npm run build --prefix client",
