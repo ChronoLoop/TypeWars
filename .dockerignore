@@ -1,3 +1,6 @@
 **/node_modules
 ./client/build
 ./images
+**/.git
+**/.env
+**/README.md
