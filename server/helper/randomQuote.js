@@ -1,9 +1,9 @@
-const axios = require('axios');
-
-const QUOTE_URI = 'http://api.quotable.io/random?minLength=100';
+const quotes = require('./quotes.json');
 
 const getRandomQuote = () => {
-    return axios.get(QUOTE_URI).then((response) => response.data.content.split(' '));
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+
+    return quote.quote.split(' ');
 };
 
 module.exports = getRandomQuote;
